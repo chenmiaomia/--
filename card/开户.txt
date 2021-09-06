@@ -1,0 +1,111 @@
+<template>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card">
+      <q-card-section class="bg-white text-black">
+        <div class="text-h6">银行卡开户</div>
+        <div class="text-subtitle2">如果您要开户，请填下以下相关信息，请确保填内容无误</div>
+      </q-card-section>
+      <div class="q-pa-md" style="max-width: 400px">
+
+        <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+        >
+          <div>请输入您的姓名：</div>
+          <q-input
+              filled
+              v-model="username"
+              label="Your name *"
+              lazy-rules
+              :rules="[ val => val && val.length > 0 || 'Please type something']"
+          />
+          <div>请输入您的身份证号：</div>
+          <q-input
+              filled
+              type="number"
+              v-model="idCard"
+              label="Your idCard *"
+          />
+          <div>请设置支付密码：</div>
+          <q-input
+              v-model="spayword"
+              label="请设置你的支付密码"
+              filled :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请确认支付密码：</div>
+          <q-input
+              v-model="cpayword"
+              label="请输入你的支付密码"
+              filled :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+
+          <q-toggle v-model="accept" label="I accept the license and terms" />
+
+          <div>
+            <q-btn label="Submit" type="submit" color="primary"/>
+            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          </div>
+        </q-form>
+
+      </div>
+    </q-card>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      username: null,
+      idCard: null,
+      spayword:null,
+      cpayword:null,
+      accept: false
+    }
+  },
+
+  methods: {
+    onSubmit () {
+      if (this.accept !== true) {
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'You need to accept the license and terms first'
+        })
+      }
+      else {
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Submitted'
+        })
+      }
+    },
+
+    onReset () {
+      this.username = null
+      this.idCard = null
+      this.spayword=null
+      this.cpayword=null
+      this.accept = false
+    }
+  }
+}
+</script>

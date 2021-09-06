@@ -1,0 +1,139 @@
+<template>
+  <q-banner class="mybanner">
+    <!--    <div style="position: absolute;left:100px;top:20px;font-size: 35px;color: white">银行卡开户</div>-->
+
+    <div class="row">
+      <div class="col-2">
+        <q-btn flat color="white"  text-color="white" @click="quhome" >
+          <q-icon name="keyboard_arrow_left"></q-icon>
+        </q-btn>
+
+      </div>
+      <div class="col-8">
+        <div style="color: white;font-size: 35px" class="row justify-center " >
+          登录
+        </div>
+      </div>
+      <div class="col.2">
+
+      </div>
+
+    </div>
+  </q-banner>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card" style="margin-top:10px;
+    position:absolute ;left: 4px;
+    width: 90%;">
+      <div class="q-pa-md" style="max-width: 400px">
+
+        <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+        >
+          <div>请输入手机号码：</div>
+          <q-input
+              outlined
+              v-model="telephoneNumber"
+              label="请输入手机号码"
+              @value-change="mobileChange"
+          />
+          <div>请输入您的登录密码：</div>
+          <q-input
+              v-model="payword"
+              label="请输入您的登录密码"
+              outlined
+              :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+
+
+          <q-input  standout="bg-teal text-white" v-model="captcha" label="图形验证码"/>
+    <div class="q-pa-md q-gutter-sm">
+      <q-btn push color="teal" label="Change image" @click="refresh" />
+
+      <q-img
+          :src="url"
+          spinner-color="white"
+          style="height: 140px; max-width: 150px"
+      />
+    </div>
+          <div ><q-btn color="primary" label="登录"  @click="loginquhome"/></div>
+          <div ><q-btn  color="primary" label="注册"  @click="qusignin"/></div>
+          <div><q-btn color="yellow-5" label="忘记密码"  @click="quforgetpassword"/></div>
+        </q-form>
+
+      </div>
+    </q-card>
+  </div>
+</template>
+
+<script lang="ts">
+import {defineComponent, reactive, toRefs} from 'vue';
+ import LoginInput from "@/components/LoginInput.vue";
+import {useRouter} from "vue-router";
+
+export default defineComponent({
+  name: "Login",
+  components: {},
+  setup() {
+    const router = useRouter();
+    const formData = reactive({mobile: "", password: ""});
+    const refData = toRefs(formData);
+    const loginquhome = (value: any) => {
+      router.push({name: "home", params: {a: "b"}});
+      console.log(formData);
+    }
+    const mobileChange = (mobile: string) => {
+      console.log(mobile);
+      formData.mobile = mobile;
+    }
+    const passwordChange = (password: string) => {
+      console.log(password);
+      formData.password = password;
+    }
+    const quhome = (value: any) => {
+      router.push({name: "home"});
+    }
+    const qusignin = (value: any) => {
+      router.push({name: "signin"});
+    }
+    const quforgetpassword = (value: any) => {
+      router.push({name: "forgetpassword"});
+    }
+    return {...refData, passwordChange, mobileChange,loginquhome,quhome,qusignin,quforgetpassword};
+  }
+  ,
+  data () {
+    return {
+      url: 'https://placeimg.com/500/300/nature',
+      telephoneNumber: null,
+      payword: null,
+      captcha:null,
+      isPwd:null
+    }
+  },
+  methods: {
+    refresh () {
+      this.url = 'https://placeimg.com/500/300/nature?t=' + Math.random()
+    }
+  }
+
+})
+</script>
+
+<style scoped>
+.mybanner {
+  background-image: linear-gradient(to right, #6889bb, #7b98c5, #8ea7cf, #a1b6da, #b4c6e4);
+  color: white;
+  height: 100px;
+  border-radius: 0px;
+  font-family: 微软雅黑;
+}
+</style>

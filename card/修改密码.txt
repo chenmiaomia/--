@@ -1,0 +1,180 @@
+<template>
+  <q-banner class="mybanner">
+    <!--    <div style="position: absolute;left:100px;top:20px;font-size: 35px;color: white">银行卡开户</div>-->
+
+    <div class="row">
+      <div class="col-2">
+        <q-btn flat color="white"  text-color="white" @click="quinformation" >
+          <q-icon name="keyboard_arrow_left"></q-icon>
+        </q-btn>
+
+      </div>
+      <div class="col-8">
+        <div style="color: white;font-size: 35px" class="row justify-center " >
+          修改密码
+        </div>
+      </div>
+      <div class="col.2">
+
+      </div>
+
+    </div>
+  </q-banner>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card" style="margin-top:10px;
+    position:absolute ;left: 4px;
+    width: 90%;">
+      <div class="q-pa-md" style="max-width: 400px">
+
+        <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+        >
+          <div>请输入原密码：</div>
+          <q-input
+              v-model="oldPayword"
+              label="请输入您的原密码"
+              outlined :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请输入新密码：</div>
+          <q-input
+              v-model="newPayword"
+              label="请输入您的新密码"
+              outlined  :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请确认新密码：</div>
+          <q-input
+              v-model="cpayword"
+              label="请确认您的新密码"
+              outlined  :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请输入手机号码：</div>
+          <q-input
+              outlined
+              v-model="telephoneNumber"
+              label="请输入手机号码"
+
+          />
+          <div>请输入短信验证码：</div>
+          <div class="row">
+
+            <div class="col-8">
+              <q-input
+                  outlined
+                  v-model="messageSend"
+                  label="请输入短信验证码"
+                  bottom-slots
+              />
+            </div>
+            <div class="col-4">
+              <q-btn color="primary" label="获取短信验证码" />
+            </div>
+          </div>
+          <div>
+            <div  class="row justify-center">
+              <q-btn label="提交" type="submit" color="primary"/>
+              <q-btn label="重置" type="reset" color="primary" flat class="q-ml-sm" />
+            </div>
+          </div>
+        </q-form>
+
+      </div>
+    </q-card>
+  </div>
+</template>
+
+<script>
+import {defineComponent} from "vue";
+import {useRouter} from "vue-router";
+
+export default defineComponent({
+  name: "Changepassword",
+  components: {},
+  setup(){
+    const router = useRouter();
+    const quhome = () => {
+      router.push({name: "home"});
+    }
+    const qulogin = () => {
+      router.push({name: "login"});
+    }
+    const quinformation = () => {
+      router.push({name: "information"});
+    }
+    return {quhome,qulogin,quinformation};
+
+  },
+  data () {
+    return {
+      telephoneNumber: null,
+      oldPayword: null,
+      newPayword:null,
+      cpayword:null,
+      messageSend:null,
+      isPwd:false
+    }
+  },
+  methods: {
+    onSubmit () {
+      if (this.accept !== true) {
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'warning',
+          message: 'You need to accept the license and terms first'
+        })
+      }
+      else {
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Submitted'
+        })
+      }
+    },
+
+    onReset () {
+      this.oldPayword=null
+      this.newPayword= null
+      this.messageSend=null
+      this.cpayword= null
+      this.telephoneNumber = null
+    }
+  }
+})
+</script>
+
+
+<style scoped>
+.mybanner {
+  background-image: linear-gradient(to right, #6889bb, #7b98c5, #8ea7cf, #a1b6da, #b4c6e4);
+  color: white;
+  height: 100px;
+  border-radius: 0px;
+  font-family: 微软雅黑;
+}
+
+</style>

@@ -1,0 +1,142 @@
+<template>
+  <q-banner class="mybanner">
+    <!--    <div style="position: absolute;left:100px;top:20px;font-size: 35px;color: white">银行卡开户</div>-->
+
+    <div class="row">
+      <div class="col-2">
+        <q-btn flat color="white"  text-color="white" @click="qulogin" >
+          <q-icon name="keyboard_arrow_left"></q-icon>
+        </q-btn>
+
+      </div>
+      <div class="col-8">
+        <div style="color: white;font-size: 35px" class="row justify-center " >
+          忘记密码
+        </div>
+      </div>
+      <div class="col.2">
+
+      </div>
+
+    </div>
+  </q-banner>
+  <div class="q-pa-md row items-start q-gutter-md">
+    <q-card class="my-card" style="margin-top:10px;
+    position:absolute ;left: 4px;
+    width: 90%;">
+      <div class="q-pa-md" style="max-width: 400px">
+
+        <q-form
+            @submit="onSubmit"
+            @reset="onReset"
+            class="q-gutter-md"
+        >
+<!--  <div class="q-pa-md">-->
+<!--    <div class="q-gutter-y-md column" style="max-width: 300px">-->
+<!--      <q-input v-model="telephoneNumber" label="手机号" stack-label :dense="dense" />-->
+<!--      <q-input v-model="newPayword" label="新密码" stack-label :dense="dense" />-->
+<!--      <q-input v-model="cpayword" label="密码确认" stack-label :dense="dense" />-->
+<!--      <q-input v-model="messageSend" label="验证码" stack-label :dense="dense" />-->
+<!--      <q-btn color="primary" glossy text-color="white" push label="确认修改"  @click="qulogin" />-->
+<!--    </div>-->
+<!--  </div>-->
+          <div>请输入您的新密码：</div>
+          <q-input
+              v-model="newPayword"
+              label="请输入您的新密码"
+              outlined :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请确认您的密码：</div>
+          <q-input
+              v-model="cPayword"
+              label="请确认您的密码"
+              outlined :type="isPwd ? 'password' : 'text'" >
+            <template v-slot:append>
+              <q-icon
+                  :name="isPwd ? 'visibility_off' : 'visibility'"
+                  class="cursor-pointer"
+                  @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
+          <div>请输入手机号码：</div>
+          <q-input
+              outlined
+              v-model="telephoneNumber"
+              label="请输入手机号码"
+
+          />
+          <div>请输入短信验证码：</div>
+          <div class="row">
+
+            <div class="col-8">
+              <q-input
+                  outlined
+                  v-model="messageSend"
+                  label="请输入短信验证码"
+                  bottom-slots
+              />
+            </div>
+            <div class="col-4">
+              <q-btn color="primary" label="获取短信验证码" />
+            </div>
+          </div>
+          <div>
+            <div  class="row justify-center">
+               <q-btn color="primary" glossy text-color="white" push label="确认修改"  @click="qulogin" />
+            </div>
+          </div>
+
+        </q-form>
+
+      </div>
+    </q-card>
+  </div>
+</template>
+
+<script>
+import {defineComponent} from "vue";
+import {useRouter} from "vue-router";
+
+
+export default defineComponent({
+  name: "Forgetpassword",
+  components: {},
+  setup(){
+    const router = useRouter();
+    const quhome = () => {
+      router.push({name: "home"});
+    }
+    const qulogin = () => {
+      router.push({name: "login"});
+    }
+    return {quhome,qulogin};
+  },
+  data () {
+    return {
+      telephoneNumber: null,
+      newPayword: null,
+      cpayword: null,
+      messageSend: null,
+      isPwd: null
+    }
+  }
+})
+</script>
+<style scoped>
+.mybanner {
+  background-image: linear-gradient(to right, #6889bb, #7b98c5, #8ea7cf, #a1b6da, #b4c6e4);
+  color: white;
+  height: 80px;
+  border-radius: 0px;
+  font-family: 微软雅黑;
+}
+
+</style>

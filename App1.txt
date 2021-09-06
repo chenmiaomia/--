@@ -1,0 +1,54 @@
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <!--  <div v-html="htmlData"></div>
+    <div v-text="htmlData"></div>-->
+  <div>
+    {{ htmlData }}
+  </div>
+  <div v-if="isShow">
+    我是V-IF条件渲染的内容
+  </div>
+  <div v-show="isShow">
+    我是V-SHOW条件渲染的内容
+  </div>
+  <div v-for="(data,index) in arrayData" v-bind:key="data">
+    {{ index }}-{{ data }}
+  </div>
+  <div v-for="(value,key) in objectData" v-bind:key="value">
+    {{ key }}-{{ value }}
+  </div>
+  <div @click="click">
+    我是一个按钮
+  </div>
+  <img :src="imgSrc">
+</template>
+
+<script lang="ts">
+import {ref, toRefs, reactive} from 'vue';
+
+export default {
+  setup() {
+    const isShow = false;
+    const arrayData = ["1", "2", "3", "4"];
+    const objectData = {"a": "1", "b": "2"};
+    const reactiveData = reactive({htmlData: "<p>我是一段文本</p>", imgSrc: ""});
+    const refData = toRefs(reactiveData);
+    const click = (event: any) => {
+      refData.imgSrc.value = "https://img.i2soft.net/log1628483578257.png";
+      refData.htmlData.value = "ada";
+    };
+    return {isShow, arrayData, objectData, click, ...refData};
+  }
+}
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>

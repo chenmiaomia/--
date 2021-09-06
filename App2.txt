@@ -1,0 +1,54 @@
+<template>
+  <img alt="Vue logo" src="./assets/logo.png">
+  <p>{{ pointNum }}</p>
+  <p>{{ pointMoney }}</p>
+  <p @click="click">点我点我</p>
+  <test name="asda"></test>
+</template>
+
+<script lang="ts">
+import {reactive, ref, toRefs, watch, computed, onBeforeMount, onMounted, defineComponent} from 'vue';//reactive  必须和toRefs配合一起使用，单独使用reactive并无法实现响应式
+
+export default defineComponent({
+  setup() { //每一个操作都是独立的，解耦的    setup方法是在Vue3里引入的新的方法，可以理解为JAVA对象的构造方法，有两个参数props,context，必须返回在template需要用到的对象或者方法
+    const pointNum = ref(0);
+    const pointMoney = computed(() => {
+      return pointNum.value * 2;
+    });
+    const reactiveData = reactive({pointNum: 0})
+    const click = () => {
+      pointNum.value++;
+    };
+    const testData = "";
+    const fileData = (event: any) => {
+      console.log(JSON.stringify(event));
+    };
+    const refData = toRefs(reactiveData);
+    watch([refData.pointNum, pointNum, pointMoney], (newValue, oldValue) => {  //watch 可以监听任意多个响应式对象    监听响应式对象，并在对象的值发生改变时执行指定操作，被监听的任意一个响应式对象的值发生变化时都会触发执行指定代码
+      console.log(oldValue);
+      console.log(newValue);
+      document.title = "" + newValue;
+    });
+    onBeforeMount(() => {
+      console.log("beforeMount" + Date.now());
+      //请求后台获取数据
+    });
+    onMounted(() => {
+      console.log("Mounted" + Date.now());
+    })
+    //浏览器安全访问路径转换
+    return {pointNum, click, pointMoney, fileData};
+  }
+});
+</script>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
